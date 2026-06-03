@@ -4,6 +4,13 @@ $currentPage = 'dashboard';
 $content = 'app/Views/dashboard/dashboard.php';
 ob_start();
 ?>
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Bienvenue <?php echo $user['Nom_Complet']; ?></h1>
+<p>Votre ERP fonctionne!</p>
+</body>
+</html>
 
 <div class="kpi-row">
     <div class="kpi">
