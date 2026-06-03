@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cahier des Charges — ERP Agence de Communication</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --primary: #1a1a2e;
+    --accent: #e63946;
+    --accent2: #457b9d;
+    --light: #f1faee;
+    --mid: #a8dadc;
+    --text: #1d1d1d;
+    --muted: #555;
+    --border: #dde2e8;
+    --bg: #fafbfc;
+    --white: #ffffff;
+    --code-bg: #f0f4f8;
+    --section-pad: 2.5rem;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--white);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* COVER PAGE */
+  .cover {
+    background: var(--primary);
+    color: white;
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -40px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 1px solid rgba(230,57,70,0.3);
+  }
+  .cover-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 32px;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  .cover h2 {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.7;
+    margin-bottom: 56px;
+  }
+  .cover-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 32px;
+    margin-top: 40px;
+  }
+  .cover-meta-item label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .cover-ref {
+    position: absolute;
+    right: 60px;
+    top: 80px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    opacity: 0.3;
+    letter-spacing: 1px;
+  }
+
+  /* TOC */
+  .toc-section {
+    padding: 60px 60px 50px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    page-break-after: always;
+  }
+  .toc-section h2 {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .toc-entry {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: color 0.15s;
+  }
+  .toc-entry:hover { color: var(--accent); }
+  .toc-entry .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 28px;
+    font-weight: 500;
+  }
+  .toc-entry .title { flex: 1; font-size: 13px; }
+  .toc-entry .dots { flex: 1; border-bottom: 1px dotted var(--border); margin: 0 8px 4px; }
+  .toc-entry .page { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  .toc-sub {
+    padding-left: 28px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* CONTENT */
+  .content { padding: 0; }
+
+  /* SECTION */
+  .section {
+    padding: 52px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:nth-child(even) { background: #fafbfc; }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: #fff0f1;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+  .section-header h2 {
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--primary);
+    line-height: 1.3;
+  }
+  .section-header p {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* MODULE HEADER */
+  .module-header {
+    background: var(--primary);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .module-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: rgba(230,57,70,0.9);
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+  .module-header h3 {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .module-body {
+    border: 1px solid var(--primary);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 20px;
+    background: white;
+  }
+
+  /* TABLE */
+  .db-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 12px 0;
+  }
+  .db-table thead tr {
+    background: var(--primary);
+    color: white;
+  }
+  .db-table thead th {
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  .db-table tbody tr:nth-child(even) { background: #f5f7fa; }
+  .db-table tbody tr:hover { background: #eef2f7; }
+  .db-table tbody td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .db-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--accent2);
+    font-weight: 500;
+  }
+  .db-table td:nth-child(2) {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #666;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 9.5px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-pk { background: #fff3e0; color: #e65100; }
+  .badge-fk { background: #e8f5e9; color: #2e7d32; }
+  .badge-req { background: #fce4ec; color: #c62828; }
+
+  /* FEATURE LIST */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 12.5px;
+  }
+  .feature-item::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ROLE CARDS */
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .role-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .role-card-header {
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .role-admin .role-card-header { background: var(--primary); color: white; }
+  .role-employe .role-card-header { background: var(--accent2); color: white; }
+  .role-card-body { padding: 12px 16px; }
+  .role-item {
+    font-size: 12px;
+    padding: 3px 0;
+    border-bottom: 1px dashed var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .role-item:last-child { border-bottom: none; }
+  .dot-ok { color: #2e7d32; font-weight: 700; }
+  .dot-no { color: var(--accent); font-weight: 700; }
+
+  /* NUMBERING */
+  .numbering-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .num-card {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .num-card label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .num-card .examples {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    line-height: 1.8;
+  }
+
+  /* TECH STACK */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .tech-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    background: white;
+  }
+  .tech-card label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .tech-card .tech-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary);
+  }
+  .tech-card .tech-desc {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: #e8f4f8;
+    border-left: 3px solid var(--accent2);
+    padding: 12px 16px;
+    border-radius: 0 5px 5px 0;
+    font-size: 12.5px;
+    margin: 16px 0;
+  }
+  .warn-box {
+    background: #fff3e0;
+    border-left: 3px solid #e65100;
+    padding: 12px 16px;
+    border-radius: 0 5px 5px 0;
+    font-size: 12.5px;
+    margin: 16px 0;
+  }
+
+  /* PHASE TIMELINE */
+  .phases {
+    margin: 20px 0;
+  }
+  .phase-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .phase-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--primary);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 3px;
+    min-width: 70px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .phase-content { flex: 1; }
+  .phase-content strong { font-size: 13px; display: block; margin-bottom: 2px; }
+  .phase-content span { font-size: 12px; color: var(--muted); }
+
+  /* PAYMENT FLOW */
+  .payment-example {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 16px 20px;
+    font-size: 12.5px;
+    margin: 14px 0;
+  }
+  .pay-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--border);
+    align-items: center;
+  }
+  .pay-row:last-child { border-bottom: none; font-weight: 600; }
+  .pay-status {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .status-partial { background: #fff3e0; color: #bf360c; }
+  .status-sold { background: #e8f5e9; color: #1b5e20; }
+
+  /* HEADING LEVELS */
+  h3 { font-size: 15px; font-weight: 600; color: var(--primary); margin: 20px 0 10px; }
+  h4 { font-size: 13px; font-weight: 600; color: var(--accent2); margin: 14px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  p { margin-bottom: 10px; font-size: 13px; }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; font-size: 13px; }
+
+  /* FOOTER */
+  .doc-footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.5);
+    padding: 28px 60px;
+    font-size: 11.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .doc-footer strong { color: white; }
+
+  @media print {
+    .cover { page-break-after: always; }
+    .toc-section { page-break-after: always; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-ref">CDC-ERP-COM-2026</div>
+  <div class="cover-badge">Document Officiel</div>
+  <h1>Cahier des Charges<br>Fonctionnel & Technique</h1>
+  <h2>Système ERP — Agence de Communication & Imprimerie</h2>
+  <div style="margin-top:36px;">
+    <p style="opacity:0.6; font-size:13px;">
+      Ce document définit le périmètre fonctionnel, l'architecture technique et les spécifications de développement d'un ERP web complet destiné à une agence de communication et d'imprimerie. Il couvre la gestion des clients, la facturation, la trésorerie et le tableau de bord analytique.
+    </p>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Version</label>
+      <span>v1.0 — 2026</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Secteur</label>
+      <span>Communication / Imprimerie</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Stack Technique</label>
+      <span>PHP 8 · MySQL · Bootstrap 5</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABLE DES MATIÈRES -->
+<div class="toc-section">
+  <h2>Sommaire</h2>
+  <a href="#s1" class="toc-entry">
+    <span class="num">01</span>
+    <span class="title">Présentation générale du projet</span>
+    <span class="dots"></span>
+    <span class="page">§1</span>
+  </a>
+  <a href="#s2" class="toc-entry">
+    <span class="num">02</span>
+    <span class="title">Objectifs & périmètre fonctionnel</span>
+    <span class="dots"></span>
+    <span class="page">§2</span>
+  </a>
+  <a href="#s3" class="toc-entry">
+    <span class="num">03</span>
+    <span class="title">Architecture technique</span>
+    <span class="dots"></span>
+    <span class="page">§3</span>
+  </a>
+  <a href="#s4" class="toc-entry">
+    <span class="num">04</span>
+    <span class="title">Module 1 — Paramètres Entreprise</span>
+    <span class="dots"></span>
+    <span class="page">§4</span>
+  </a>
+  <a href="#s5" class="toc-entry">
+    <span class="num">05</span>
+    <span class="title">Module 2 — Gestion des Utilisateurs & Droits</span>
+    <span class="dots"></span>
+    <span class="page">§5</span>
+  </a>
+  <a href="#s6" class="toc-entry">
+    <span class="num">06</span>
+    <span class="title">Module 3 — Gestion des Clients</span>
+    <span class="dots"></span>
+    <span class="page">§6</span>
+  </a>
+  <a href="#s7" class="toc-entry">
+    <span class="num">07</span>
+    <span class="title">Module 4 — Proformas (Devis)</span>
+    <span class="dots"></span>
+    <span class="page">§7</span>
+  </a>
+  <a href="#s8" class="toc-entry">
+    <span class="num">08</span>
+    <span class="title">Module 5 — Facturation</span>
+    <span class="dots"></span>
+    <span class="page">§8</span>
+  </a>
+  <a href="#s9" class="toc-entry">
+    <span class="num">09</span>
+    <span class="title">Module 6 — Bons de Livraison</span>
+    <span class="dots"></span>
+    <span class="page">§9</span>
+  </a>
+  <a href="#s10" class="toc-entry">
+    <span class="num">10</span>
+    <span class="title">Module 7 — Paiements</span>
+    <span class="dots"></span>
+    <span class="page">§10</span>
+  </a>
+  <a href="#s11" class="toc-entry">
+    <span class="num">11</span>
+    <span class="title">Module 8 — Trésorerie & Dépenses</span>
+    <span class="dots"></span>
+    <span class="page">§11</span>
+  </a>
+  <a href="#s12" class="toc-entry">
+    <span class="num">12</span>
+    <span class="title">Module 9 — Catalogue Services</span>
+    <span class="dots"></span>
+    <span class="page">§12</span>
+  </a>
+  <a href="#s13" class="toc-entry">
+    <span class="num">13</span>
+    <span class="title">Tableau de bord principal</span>
+    <span class="dots"></span>
+    <span class="page">§13</span>
+  </a>
+  <a href="#s14" class="toc-entry">
+    <span class="num">14</span>
+    <span class="title">Numérotation automatique des documents</span>
+    <span class="dots"></span>
+    <span class="page">§14</span>
+  </a>
+  <a href="#s15" class="toc-entry">
+    <span class="num">15</span>
+    <span class="title">Génération PDF & impression</span>
+    <span class="dots"></span>
+    <span class="page">§15</span>
+  </a>
+  <a href="#s16" class="toc-entry">
+    <span class="num">16</span>
+    <span class="title">Plan de développement & livrables</span>
+    <span class="dots"></span>
+    <span class="page">§16</span>
+  </a>
+  <a href="#s17" class="toc-entry">
+    <span class="num">17</span>
+    <span class="title">Contraintes & exigences non-fonctionnelles</span>
+    <span class="dots"></span>
+    <span class="page">§17</span>
+  </a>
+</div>
+
+<div class="content">
+
+<!-- SECTION 1 -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <span class="section-num">§ 01</span>
+    <div>
+      <h2>Présentation Générale du Projet</h2>
+      <p>Contexte, enjeux et vision du système</p>
+    </div>
+  </div>
+
+  <h3>1.1 Contexte</h3>
+  <p>L'agence de communication et d'imprimerie gère au quotidien un volume important de devis, factures, livraisons et paiements. La gestion manuelle ou via des outils non intégrés (Excel, papier) génère des erreurs, des pertes d'information et un manque de visibilité financière.</p>
+  <p>Le projet consiste à développer un <strong>ERP web sur mesure</strong>, hébergé en interne sur WampServer, accessible via navigateur par les collaborateurs de l'agence.</p>
+
+  <h3>1.2 Objectif Principal</h3>
+  <p>Fournir à l'agence un outil unique et centralisé permettant de :</p>
+  <ul>
+    <li>Gérer le cycle commercial complet : <em>proforma → facture → livraison → paiement</em></li>
+    <li>Suivre la trésorerie en temps réel</li>
+    <li>Émettre des documents professionnels (PDF) avec logo, signature et coordonnées bancaires</li>
+    <li>Contrôler les accès par rôle utilisateur</li>
+    <li>Produire des rapports et statistiques métier</li>
+  </ul>
+
+  <h3>1.3 Utilisateurs Cibles</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Directeur / Administrateur</div>
+    <div class="feature-item">Commercial(e)</div>
+    <div class="feature-item">Comptable</div>
+    <div class="feature-item">Chef de projet</div>
+  </div>
+
+  <h3>1.4 Périmètre</h3>
+  <div class="info-box">
+    <strong>In Scope :</strong> Paramètres entreprise, gestion utilisateurs, clients, proformas, factures, bons de livraison, paiements, dépenses, trésorerie, tableau de bord, génération PDF, catalogue services.<br><br>
+    <strong>Out of Scope (V1) :</strong> Comptabilité générale (grand livre, bilan), gestion de stock produits physiques, CRM avancé, application mobile native, intégration bancaire automatisée.
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <span class="section-num">§ 02</span>
+    <div>
+      <h2>Objectifs & Périmètre Fonctionnel</h2>
+      <p>Liste des fonctionnalités attendues par module</p>
+    </div>
+  </div>
+
+  <table class="db-table">
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>Fonctionnalités Principales</th>
+        <th>Priorité</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Paramètres Entreprise</td><td>Logo, RCCM, NIF, signature, coordonnées bancaires</td><td><span class="badge badge-req">CRITIQUE</span></td></tr>
+      <tr><td>Utilisateurs</td><td>2 rôles (Admin / Employé), gestion accès</td><td><span class="badge badge-req">CRITIQUE</span></td></tr>
+      <tr><td>Clients</td><td>CRUD, recherche multicritère, historique complet</td><td><span class="badge badge-req">CRITIQUE</span></td></tr>
+      <tr><td>Proformas</td><td>Création, PDF, conversion en facture</td><td><span class="badge badge-req">CRITIQUE</span></td></tr>
+      <tr><td>Factures</td><td>Création directe ou depuis proforma, TVA, PDF</td><td><span class="badge badge-req">CRITIQUE</span></td></tr>
+      <tr><td>Bons de Livraison</td><td>Auto depuis facture, quantités livrées, PDF</td><td><span class="badge badge-req">CRITIQUE</span></td></tr>
+      <tr><td>Paiements</td><td>Partiels, multi-modes, suivi solde</td><td><span class="badge badge-req">CRITIQUE</span></td></tr>
+      <tr><td>Dépenses</td><td>Enregistrement, catégorisation, justificatifs</td><td><span class="badge badge-pk">HAUTE</span></td></tr>
+      <tr><td>Trésorerie</td><td>Encaissements − Dépenses = Résultat</td><td><span class="badge badge-pk">HAUTE</span></td></tr>
+      <tr><td>Catalogue Services</td><td>Liste déroulante désignations, prix standard</td><td><span class="badge badge-pk">HAUTE</span></td></tr>
+      <tr><td>Tableau de Bord</td><td>Statistiques, graphiques, alertes impayés</td><td><span class="badge badge-fk">MOYENNE</span></td></tr>
+      <tr><td>Rapports</td><td>Export PDF/Excel par période, par client</td><td><span class="badge badge-fk">MOYENNE</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <span class="section-num">§ 03</span>
+    <div>
+      <h2>Architecture Technique</h2>
+      <p>Stack technologique, organisation du code et infrastructure</p>
+    </div>
+  </div>
+
+  <div class="tech-grid">
+    <div class="tech-card">
+      <label>Frontend</label>
+      <div class="tech-name">HTML5 + Bootstrap 5</div>
+      <div class="tech-desc">Interfaces responsives, composants UI natifs</div>
+    </div>
+    <div class="tech-card">
+      <label>Interactivité</label>
+      <div class="tech-name">JavaScript + AJAX</div>
+      <div class="tech-desc">Formulaires dynamiques, auto-calcul, recherche live</div>
+    </div>
+    <div class="tech-card">
+      <label>Backend</label>
+      <div class="tech-name">PHP 8 — MVC</div>
+      <div class="tech-desc">Architecture orientée objet, routeur URL</div>
+    </div>
+    <div class="tech-card">
+      <label>Base de données</label>
+      <div class="tech-name">MySQL 8</div>
+      <div class="tech-desc">Clés étrangères, transactions, index</div>
+    </div>
+    <div class="tech-card">
+      <label>Génération PDF</label>
+      <div class="tech-name">DomPDF</div>
+      <div class="tech-desc">Factures, proformas, BL au format A4</div>
+    </div>
+    <div class="tech-card">
+      <label>Graphiques</label>
+      <div class="tech-name">Chart.js</div>
+      <div class="tech-desc">Courbes CA, camemberts, barres mensuelles</div>
+    </div>
+    <div class="tech-card">
+      <label>Serveur local</label>
+      <div class="tech-name">WampServer</div>
+      <div class="tech-desc">Apache + PHP + MySQL sur Windows</div>
+    </div>
+    <div class="tech-card">
+      <label>Sécurité Sessions</label>
+      <div class="tech-name">PHP Sessions</div>
+      <div class="tech-desc">Authentification, CSRF, hachage bcrypt</div>
+    </div>
+    <div class="tech-card">
+      <label>Icônes</label>
+      <div class="tech-name">Bootstrap Icons</div>
+      <div class="tech-desc">Bibliothèque SVG intégrée, 1800+ icônes</div>
+    </div>
+  </div>
+
+  <h3>3.1 Architecture MVC — Organisation des Dossiers</h3>
+  <div style="background:var(--code-bg); border:1px solid var(--border); border-radius:5px; padding:16px 20px; font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.9; margin:16px 0;">
+    <span style="color:#1a1a2e; font-weight:600;">erp-agence/</span><br>
+    &nbsp;&nbsp;<span style="color:#457b9d;">app/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#666;">Controllers/</span> &nbsp;&nbsp;<span style="color:#999;">← ClientController, FactureController…</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#666;">Models/</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#999;">← Client.php, Facture.php…</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#666;">Views/</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#999;">← templates HTML/PHP</span><br>
+    &nbsp;&nbsp;<span style="color:#457b9d;">config/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#666;">database.php</span> &nbsp;&nbsp;<span style="color:#999;">← connexion PDO</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#666;">app.php</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#999;">← constantes globales</span><br>
+    &nbsp;&nbsp;<span style="color:#457b9d;">public/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#666;">css/ js/ img/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#666;">index.php</span> &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#999;">← point d'entrée unique</span><br>
+    &nbsp;&nbsp;<span style="color:#457b9d;">vendor/</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#999;">← Composer (DomPDF…)</span><br>
+    &nbsp;&nbsp;<span style="color:#666;">.htaccess</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#999;">← réécriture URL</span>
+  </div>
+
+  <h3>3.2 Schéma de la Base de Données</h3>
+  <p>La base de données MySQL contient les tables principales suivantes et leurs relations :</p>
+  <div style="background:var(--code-bg); border:1px solid var(--border); border-radius:5px; padding:14px 18px; font-size:11.5px; font-family:'IBM Plex Mono',monospace; line-height:2; margin-top:10px;">
+    PARAMETRES_ENTREPRISE (1) ────────── (N) PROFORMAS<br>
+    CLIENTS (1) ──────────────────────── (N) PROFORMAS<br>
+    CLIENTS (1) ──────────────────────── (N) FACTURES<br>
+    PROFORMAS (1) ────────────────────── (1) FACTURES &nbsp;&nbsp;<span style="color:#666; font-size:10px;">[conversion optionnelle]</span><br>
+    FACTURES (1) ─────────────────────── (N) LIGNES_FACTURE<br>
+    FACTURES (1) ─────────────────────── (N) PAIEMENTS<br>
+    FACTURES (1) ─────────────────────── (N) BONS_LIVRAISON<br>
+    PROFORMAS (1) ────────────────────── (N) LIGNES_PROFORMA<br>
+    BONS_LIVRAISON (1) ─────────────── (N) LIGNES_BL<br>
+    SERVICES (1) ─────────────────────── (N) LIGNES_FACTURE / LIGNES_PROFORMA / LIGNES_BL<br>
+    UTILISATEURS (1) ─────────────────── (N) FACTURES / PROFORMAS <span style="color:#666; font-size:10px;">[créé par]</span>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <span class="section-num">§ 04</span>
+    <div>
+      <h2>Module 1 — Paramètres Entreprise</h2>
+      <p>Configuration de l'identité visuelle et légale de l'agence</p>
+    </div>
+  </div>
+
+  <p>Ce module est le socle de tout l'ERP. Les informations saisies ici apparaissent automatiquement sur tous les documents générés (proformas, factures, bons de livraison).</p>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>PARAMETRES_ENTREPRISE</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead>
+        <tr><th>Champ</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ID_Entreprise</td><td>INT PK</td><td>Identifiant unique <span class="badge badge-pk">PK</span></td></tr>
+        <tr><td>Nom_Entreprise</td><td>VARCHAR(100)</td><td>Raison sociale officielle</td></tr>
+        <tr><td>Logo</td><td>VARCHAR(255)</td><td>Chemin vers le fichier image (PNG/JPG)</td></tr>
+        <tr><td>Sigle</td><td>VARCHAR(50)</td><td>Abréviation ou sigle commercial</td></tr>
+        <tr><td>NIF</td><td>VARCHAR(50)</td><td>Numéro d'Identification Fiscale</td></tr>
+        <tr><td>RCCM</td><td>VARCHAR(50)</td><td>Registre du Commerce et du Crédit Mobilier</td></tr>
+        <tr><td>Adresse</td><td>TEXT</td><td>Adresse physique complète</td></tr>
+        <tr><td>Telephone_Principal</td><td>VARCHAR(30)</td><td>Numéro principal affiché sur les docs</td></tr>
+        <tr><td>Telephone_Secondaire</td><td>VARCHAR(30)</td><td>Numéro secondaire (optionnel)</td></tr>
+        <tr><td>Email</td><td>VARCHAR(100)</td><td>Email professionnel</td></tr>
+        <tr><td>Site_Web</td><td>VARCHAR(255)</td><td>URL du site web (optionnel)</td></tr>
+        <tr><td>Coordonnee_Bancaire</td><td>TEXT</td><td>IBAN, nom banque, agence</td></tr>
+        <tr><td>Moyen_Paiement_Mobile</td><td>VARCHAR(100)</td><td>Ex : Orange Money +223 XX XX XX XX</td></tr>
+        <tr><td>Mentions_Legales</td><td>TEXT</td><td>Texte en bas de facture (conditions, pénalités…)</td></tr>
+        <tr><td>Signature</td><td>TEXT / VARCHAR(255)</td><td>Image signature ou nom signataire</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Fonctionnalités du module</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Modifier toutes les informations de l'entreprise</div>
+    <div class="feature-item">Changer / uploader le logo (formats PNG, JPG)</div>
+    <div class="feature-item">Ajouter ou modifier la signature numérique</div>
+    <div class="feature-item">Configurer les moyens de paiement acceptés</div>
+    <div class="feature-item">Prévisualiser un document type avec les données saisies</div>
+    <div class="feature-item">Accès réservé au rôle ADMIN uniquement</div>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <span class="section-num">§ 05</span>
+    <div>
+      <h2>Module 2 — Gestion des Utilisateurs & Droits</h2>
+      <p>Authentification, rôles et contrôle d'accès</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>UTILISATEURS</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead>
+        <tr><th>Champ</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ID_User</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant unique</td></tr>
+        <tr><td>Nom_Complet</td><td>VARCHAR(150)</td><td>Prénom et nom de l'utilisateur</td></tr>
+        <tr><td>Email</td><td>VARCHAR(100) UNIQUE</td><td>Login — adresse email professionnelle</td></tr>
+        <tr><td>Mot_De_Passe</td><td>VARCHAR(255)</td><td>Hachage bcrypt</td></tr>
+        <tr><td>Role</td><td>ENUM('ADMIN','EMPLOYE')</td><td>Niveau d'accès</td></tr>
+        <tr><td>Actif</td><td>BOOLEAN DEFAULT 1</td><td>Compte activé ou désactivé</td></tr>
+        <tr><td>Date_Creation</td><td>DATETIME</td><td>Date de création du compte</td></tr>
+        <tr><td>Derniere_Connexion</td><td>DATETIME NULL</td><td>Traçabilité des connexions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Matrice des droits</h3>
+  <div class="role-grid">
+    <div class="role-card role-admin">
+      <div class="role-card-header">👑 ADMIN / DIRECTEUR</div>
+      <div class="role-card-body">
+        <div class="role-item"><span class="dot-ok">✓</span> Paramètres entreprise</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Gestion utilisateurs</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Clients (CRUD complet)</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Proformas (CRUD)</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Factures (CRUD)</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Bons de livraison (CRUD)</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Paiements (consultation + saisie)</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Dépenses (CRUD)</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Rapports & trésorerie</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Suppression définitive</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Tableau de bord complet</div>
+      </div>
+    </div>
+    <div class="role-card role-employe">
+      <div class="role-card-header">👤 EMPLOYÉ (tous profils)</div>
+      <div class="role-card-body">
+        <div class="role-item"><span class="dot-ok">✓</span> Créer / modifier des clients</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Créer / modifier des proformas</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Créer / modifier des factures</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Créer des bons de livraison</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Consulter les paiements</div>
+        <div class="role-item"><span class="dot-ok">✓</span> Générer des PDF</div>
+        <div class="role-item"><span class="dot-no">✗</span> Paramètres entreprise</div>
+        <div class="role-item"><span class="dot-no">✗</span> Gestion des utilisateurs</div>
+        <div class="role-item"><span class="dot-no">✗</span> Suppression définitive</div>
+        <div class="role-item"><span class="dot-no">✗</span> Rapport trésorerie détaillé</div>
+        <div class="role-item"><span class="dot-no">✗</span> Enregistrer des dépenses</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>Sécurité :</strong> Toutes les routes sensibles vérifient le rôle en session PHP avant chaque exécution. Le mot de passe est haché avec <code>password_hash()</code> (bcrypt). Les tokens CSRF protègent tous les formulaires de modification.
+  </div>
+</div>
+
+<!-- SECTION 6 -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <span class="section-num">§ 06</span>
+    <div>
+      <h2>Module 3 — Gestion des Clients</h2>
+      <p>Fiche client, historique commercial et recherche avancée</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>CLIENTS</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead>
+        <tr><th>Champ</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ID_Client</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant unique</td></tr>
+        <tr><td>Nom_Client</td><td>VARCHAR(150) NOT NULL</td><td>Raison sociale ou nom particulier</td></tr>
+        <tr><td>Type_Client</td><td>ENUM('Entreprise','Particulier')</td><td>Permet d'adapter l'affichage</td></tr>
+        <tr><td>NIF</td><td>VARCHAR(50) NULL</td><td>NIF pour les entreprises clientes</td></tr>
+        <tr><td>RCCM</td><td>VARCHAR(50) NULL</td><td>RCCM pour les entreprises clientes</td></tr>
+        <tr><td>Adresse</td><td>TEXT</td><td>Adresse complète</td></tr>
+        <tr><td>Telephone</td><td>VARCHAR(30)</td><td>Contact téléphonique</td></tr>
+        <tr><td>Email</td><td>VARCHAR(100) NULL</td><td>Email du client</td></tr>
+        <tr><td>Personne_Contact</td><td>VARCHAR(150) NULL</td><td>Nom du contact principal</td></tr>
+        <tr><td>Actif</td><td>BOOLEAN DEFAULT 1</td><td>Désactivation sans suppression</td></tr>
+        <tr><td>Date_Creation</td><td>DATETIME</td><td>Date d'ajout du client</td></tr>
+        <tr><td>Observation</td><td>TEXT NULL</td><td>Notes libres sur le client</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Fonctionnalités</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Ajout d'un nouveau client (formulaire complet)</div>
+    <div class="feature-item">Modification des informations</div>
+    <div class="feature-item">Désactivation (archivage sans suppression physique)</div>
+    <div class="feature-item">Recherche multicritère (nom, téléphone, NIF, RCCM)</div>
+    <div class="feature-item">Fiche client avec historique complet en onglets</div>
+    <div class="feature-item">Indicateurs : CA total, solde dû, nb de factures</div>
+  </div>
+
+  <h3>Historique client (fiche détaillée)</h3>
+  <p>Depuis la fiche d'un client, l'utilisateur accède à 4 onglets :</p>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;">
+    <div style="border:1px solid var(--border); border-radius:5px; padding:12px 14px; background:white;">
+      <strong style="color:var(--accent2); display:block; margin-bottom:4px;">📄 Proformas</strong>
+      <span style="font-size:12px; color:var(--muted);">Tous les devis émis — statut, montant, date</span>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:12px 14px; background:white;">
+      <strong style="color:var(--accent2); display:block; margin-bottom:4px;">🧾 Factures</strong>
+      <span style="font-size:12px; color:var(--muted);">Toutes les factures — payée / en attente / soldée</span>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:12px 14px; background:white;">
+      <strong style="color:var(--accent2); display:block; margin-bottom:4px;">💳 Paiements</strong>
+      <span style="font-size:12px; color:var(--muted);">Historique des versements effectués</span>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:12px 14px; background:white;">
+      <strong style="color:var(--accent2); display:block; margin-bottom:4px;">📦 Bons de livraison</strong>
+      <span style="font-size:12px; color:var(--muted);">Suivi des livraisons effectuées</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7 -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <span class="section-num">§ 07</span>
+    <div>
+      <h2>Module 4 — Proformas (Devis)</h2>
+      <p>Création de devis, lignes de détail et conversion en facture</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>PROFORMAS</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_Proforma</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant</td></tr>
+        <tr><td>Reference</td><td>VARCHAR(20) UNIQUE</td><td>Ex : P-26-0001 (auto-généré)</td></tr>
+        <tr><td>Date_Emission</td><td>DATE NOT NULL</td><td>Date de création</td></tr>
+        <tr><td>Date_Validite</td><td>DATE NULL</td><td>Date d'expiration du devis</td></tr>
+        <tr><td>ID_Client</td><td>INT FK → CLIENTS</td><td>Client concerné <span class="badge badge-fk">FK</span></td></tr>
+        <tr><td>Objet</td><td>VARCHAR(255)</td><td>Intitulé du projet / prestation</td></tr>
+        <tr><td>Taux_TVA</td><td>DECIMAL(5,2) DEFAULT 0</td><td>0, 18 ou valeur personnalisée</td></tr>
+        <tr><td>Montant_HT</td><td>DECIMAL(15,2)</td><td>Calculé automatiquement</td></tr>
+        <tr><td>Montant_TVA</td><td>DECIMAL(15,2)</td><td>Calculé automatiquement</td></tr>
+        <tr><td>Montant_TTC</td><td>DECIMAL(15,2)</td><td>Calculé automatiquement</td></tr>
+        <tr><td>Statut</td><td>ENUM('EN_ATTENTE','ACCEPTE','REFUSE','CONVERTI')</td><td>Suivi du cycle de vie</td></tr>
+        <tr><td>ID_Facture_Liee</td><td>INT FK NULL</td><td>Facture générée depuis ce proforma</td></tr>
+        <tr><td>ID_User</td><td>INT FK → UTILISATEURS</td><td>Créateur du document</td></tr>
+        <tr><td>Observations</td><td>TEXT NULL</td><td>Remarques internes</td></tr>
+        <tr><td>Date_Creation</td><td>DATETIME</td><td>Horodatage système</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module-header" style="margin-top:16px;">
+    <span class="module-tag">TABLE</span>
+    <h3>LIGNES_PROFORMA</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_Ligne</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant ligne</td></tr>
+        <tr><td>ID_Proforma</td><td>INT FK → PROFORMAS</td><td><span class="badge badge-fk">FK</span></td></tr>
+        <tr><td>ID_Service</td><td>INT FK NULL → SERVICES</td><td>Service du catalogue (optionnel)</td></tr>
+        <tr><td>Designation</td><td>VARCHAR(255) NOT NULL</td><td>Saisie libre ou tirée du catalogue</td></tr>
+        <tr><td>Quantite</td><td>DECIMAL(10,2)</td><td>Quantité commandée</td></tr>
+        <tr><td>Prix_Unitaire</td><td>DECIMAL(15,2)</td><td>Prix unitaire HT</td></tr>
+        <tr><td>Total_Ligne</td><td>DECIMAL(15,2)</td><td>= Quantité × Prix_Unitaire</td></tr>
+        <tr><td>Ordre</td><td>INT DEFAULT 0</td><td>Ordre d'affichage des lignes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Saisie intelligente des Désignations</h3>
+  <p>Le champ <strong>Désignation</strong> propose une double saisie :</p>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0;">
+    <div style="background:var(--code-bg); border:1px solid var(--border); border-radius:5px; padding:14px;">
+      <strong style="font-size:12px; color:var(--primary); display:block; margin-bottom:8px;">▼ Liste déroulante (catalogue)</strong>
+      <div style="font-size:12px; line-height:2; font-family:'IBM Plex Mono',monospace; color:var(--muted);">
+        • Conception graphique<br>
+        • Impression Bâche<br>
+        • Carte de visite<br>
+        • Roll Up<br>
+        • Flyer / Dépliant<br>
+        • Brochure<br>
+        • Kakémono<br>
+        • T-shirt sérigraphié
+      </div>
+    </div>
+    <div style="background:#f0f9f0; border:1px solid #c8e6c9; border-radius:5px; padding:14px;">
+      <strong style="font-size:12px; color:var(--primary); display:block; margin-bottom:8px;">✏️ Saisie libre (manuelle)</strong>
+      <p style="font-size:12px; color:var(--muted);">L'utilisateur peut ignorer la liste et taper directement :</p>
+      <div style="font-style:italic; font-size:12px; color:#2e7d32; margin-top:6px;">"Création de visuel Facebook Juin 2026"<br>"Habillage véhicule client XYZ"<br>"Maquette catalogue printemps"</div>
+    </div>
+  </div>
+
+  <h3>Gestion des statuts</h3>
+  <table class="db-table">
+    <thead><tr><th>Statut</th><th>Signification</th><th>Action disponible</th></tr></thead>
+    <tbody>
+      <tr><td>EN_ATTENTE</td><td>Envoyé, en attente de réponse client</td><td>Modifier, Convertir, Refuser</td></tr>
+      <tr><td>ACCEPTE</td><td>Client a validé le devis</td><td>Convertir en facture</td></tr>
+      <tr><td>REFUSE</td><td>Client a refusé</td><td>Archiver</td></tr>
+      <tr><td>CONVERTI</td><td>Facture générée depuis ce proforma</td><td>Voir la facture liée</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 8 -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <span class="section-num">§ 08</span>
+    <div>
+      <h2>Module 5 — Facturation</h2>
+      <p>Création directe ou conversion depuis proforma, TVA, paiements partiels</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>FACTURES</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_Facture</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant</td></tr>
+        <tr><td>Reference</td><td>VARCHAR(20) UNIQUE</td><td>Ex : F-26-0001 (auto-généré)</td></tr>
+        <tr><td>Date_Emission</td><td>DATE NOT NULL</td><td>Date de facturation</td></tr>
+        <tr><td>Date_Echeance</td><td>DATE NULL</td><td>Délai de paiement convenu</td></tr>
+        <tr><td>ID_Client</td><td>INT FK → CLIENTS</td><td><span class="badge badge-fk">FK</span></td></tr>
+        <tr><td>ID_Proforma</td><td>INT FK NULL</td><td>Proforma d'origine (si conversion)</td></tr>
+        <tr><td>Objet</td><td>VARCHAR(255)</td><td>Intitulé de la facture</td></tr>
+        <tr><td>Taux_TVA</td><td>DECIMAL(5,2) DEFAULT 0</td><td>0 %, 18 % ou personnalisé</td></tr>
+        <tr><td>Montant_HT</td><td>DECIMAL(15,2)</td><td>Calculé auto depuis les lignes</td></tr>
+        <tr><td>Montant_TVA</td><td>DECIMAL(15,2)</td><td>= Montant_HT × Taux_TVA / 100</td></tr>
+        <tr><td>Montant_TTC</td><td>DECIMAL(15,2)</td><td>= Montant_HT + Montant_TVA</td></tr>
+        <tr><td>Montant_Paye</td><td>DECIMAL(15,2) DEFAULT 0</td><td>Mis à jour à chaque paiement</td></tr>
+        <tr><td>Solde_Restant</td><td>DECIMAL(15,2) GENERATED</td><td>= Montant_TTC − Montant_Paye</td></tr>
+        <tr><td>Statut</td><td>ENUM('EN_ATTENTE','PARTIELLE','SOLDEE','ANNULEE')</td><td>Mis à jour automatiquement</td></tr>
+        <tr><td>ID_User</td><td>INT FK → UTILISATEURS</td><td>Auteur de la facture</td></tr>
+        <tr><td>Observations</td><td>TEXT NULL</td><td>Notes internes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Gestion de la TVA</h3>
+  <div style="background:var(--code-bg); border:1px solid var(--border); border-radius:5px; padding:16px 20px; margin:14px 0; font-size:12.5px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; text-align:center;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; color:var(--primary);">0 %</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">Exonéré de TVA</div>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; color:var(--accent);">18 %</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">Taux standard</div>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; color:var(--accent2);">Libre</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">Valeur personnalisée</div>
+      </div>
+    </div>
+    <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border); font-family:'IBM Plex Mono',monospace; font-size:12px;">
+      Montant TTC &nbsp;=&nbsp; Montant HT &nbsp;+&nbsp; (Montant HT &nbsp;×&nbsp; Taux TVA / 100)
+    </div>
+  </div>
+
+  <h3>Paiements partiels — Exemple de cycle</h3>
+  <div class="payment-example">
+    <div class="pay-row">
+      <span><strong>Facture F-26-0012</strong> — Impression bâche grand format</span>
+      <span><strong>1 000 000 FCFA</strong></span>
+    </div>
+    <div class="pay-row">
+      <span>Paiement 1 — Orange Money — 15/01/2026</span>
+      <span style="color:#2e7d32;">+ 300 000 FCFA &nbsp; <span class="pay-status status-partial">PARTIELLE</span></span>
+    </div>
+    <div class="pay-row">
+      <span>Solde après Paiement 1</span>
+      <span style="color:var(--accent);">700 000 FCFA restants</span>
+    </div>
+    <div class="pay-row">
+      <span>Paiement 2 — Espèces — 01/02/2026</span>
+      <span style="color:#2e7d32;">+ 200 000 FCFA &nbsp; <span class="pay-status status-partial">PARTIELLE</span></span>
+    </div>
+    <div class="pay-row">
+      <span>Solde après Paiement 2</span>
+      <span style="color:var(--accent);">500 000 FCFA restants</span>
+    </div>
+    <div class="pay-row">
+      <span>Paiement 3 — Virement — 15/02/2026</span>
+      <span style="color:#2e7d32;">+ 500 000 FCFA &nbsp; <span class="pay-status status-sold">SOLDÉE</span></span>
+    </div>
+  </div>
+
+  <h3>Conversion Proforma → Facture</h3>
+  <div class="info-box">
+    En un seul clic, l'utilisateur convertit un proforma accepté en facture. Le système copie automatiquement : le client, l'objet, toutes les lignes (désignation, quantité, prix), la TVA. La référence facture est auto-générée. Le proforma passe au statut CONVERTI et un lien bidirectionnel est créé.
+  </div>
+</div>
+
+<!-- SECTION 9 -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <span class="section-num">§ 09</span>
+    <div>
+      <h2>Module 6 — Bons de Livraison</h2>
+      <p>Suivi des livraisons client, génération automatique depuis une facture</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>BONS_LIVRAISON</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_BL</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant</td></tr>
+        <tr><td>Reference</td><td>VARCHAR(20) UNIQUE</td><td>Ex : BL-26-0001</td></tr>
+        <tr><td>Date_Livraison</td><td>DATE NOT NULL</td><td>Date effective de livraison</td></tr>
+        <tr><td>ID_Client</td><td>INT FK → CLIENTS</td><td><span class="badge badge-fk">FK</span></td></tr>
+        <tr><td>ID_Facture</td><td>INT FK → FACTURES</td><td>Facture de référence <span class="badge badge-fk">FK</span></td></tr>
+        <tr><td>Statut</td><td>ENUM('EN_COURS','LIVRE','PARTIEL')</td><td>Avancement de la livraison</td></tr>
+        <tr><td>Livreur</td><td>VARCHAR(100) NULL</td><td>Nom du livreur (optionnel)</td></tr>
+        <tr><td>Observations</td><td>TEXT NULL</td><td>Remarques de livraison</td></tr>
+        <tr><td>ID_User</td><td>INT FK → UTILISATEURS</td><td>Auteur du bon</td></tr>
+        <tr><td>Date_Creation</td><td>DATETIME</td><td>Horodatage système</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module-header" style="margin-top:16px;">
+    <span class="module-tag">TABLE</span>
+    <h3>LIGNES_BL</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_Ligne_BL</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant ligne</td></tr>
+        <tr><td>ID_BL</td><td>INT FK → BONS_LIVRAISON</td><td><span class="badge badge-fk">FK</span></td></tr>
+        <tr><td>Designation</td><td>VARCHAR(255) NOT NULL</td><td>Reprise depuis la facture</td></tr>
+        <tr><td>Qte_Commandee</td><td>DECIMAL(10,2)</td><td>Quantité initiale de la facture</td></tr>
+        <tr><td>Qte_Livree</td><td>DECIMAL(10,2)</td><td>Quantité effectivement livrée (modifiable)</td></tr>
+        <tr><td>Observations</td><td>VARCHAR(255) NULL</td><td>Remarque sur cet article</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Fonctionnalités</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Création automatique depuis une facture (lignes reprises)</div>
+    <div class="feature-item">Modification des quantités livrées par ligne</div>
+    <div class="feature-item">Livraison partielle possible (Qte_Livree &lt; Qte_Commandee)</div>
+    <div class="feature-item">Génération PDF avec logo, signature et coordonnées</div>
+    <div class="feature-item">Signature client (case à cocher ou champ)</div>
+    <div class="feature-item">Historique des BL par client et par facture</div>
+  </div>
+</div>
+
+<!-- SECTION 10 -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <span class="section-num">§ 10</span>
+    <div>
+      <h2>Module 7 — Paiements</h2>
+      <p>Enregistrement des encaissements, multi-modes, suivi des soldes</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>PAIEMENTS</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_Paiement</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant</td></tr>
+        <tr><td>Reference</td><td>VARCHAR(50) NULL</td><td>Référence chèque, virement, reçu…</td></tr>
+        <tr><td>Date_Paiement</td><td>DATETIME NOT NULL</td><td>Date et heure de l'encaissement</td></tr>
+        <tr><td>ID_Facture</td><td>INT FK → FACTURES NOT NULL</td><td><span class="badge badge-fk">FK</span></td></tr>
+        <tr><td>Montant</td><td>DECIMAL(15,2) NOT NULL</td><td>Montant encaissé</td></tr>
+        <tr><td>Mode_Paiement</td><td>ENUM(…)</td><td>Espèces, Chèque, Virement, Orange Money, Moov Money</td></tr>
+        <tr><td>Observation</td><td>TEXT NULL</td><td>Notes libres</td></tr>
+        <tr><td>ID_User</td><td>INT FK → UTILISATEURS</td><td>Auteur de la saisie</td></tr>
+        <tr><td>Date_Saisie</td><td>DATETIME</td><td>Horodatage système</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Modes de paiement acceptés</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Espèces (cash)</div>
+    <div class="feature-item">Chèque bancaire</div>
+    <div class="feature-item">Virement bancaire</div>
+    <div class="feature-item">Orange Money</div>
+    <div class="feature-item">Moov Money</div>
+    <div class="feature-item">Autre (saisie libre)</div>
+  </div>
+
+  <div class="info-box">
+    <strong>Mise à jour automatique :</strong> À chaque enregistrement d'un paiement, le système recalcule <code>Montant_Paye</code> et <code>Solde_Restant</code> dans la table FACTURES, et met à jour le statut (EN_ATTENTE → PARTIELLE → SOLDEE) via un trigger MySQL ou une mise à jour PHP après INSERT.
+  </div>
+</div>
+
+<!-- SECTION 11 -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <span class="section-num">§ 11</span>
+    <div>
+      <h2>Module 8 — Trésorerie & Dépenses</h2>
+      <p>Suivi financier global : encaissements, dépenses, résultat net</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>DEPENSES</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_Depense</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant</td></tr>
+        <tr><td>Date_Depense</td><td>DATETIME NOT NULL</td><td>Date effective de la dépense</td></tr>
+        <tr><td>Libelle</td><td>VARCHAR(255) NOT NULL</td><td>Description de la dépense</td></tr>
+        <tr><td>Categorie</td><td>VARCHAR(100) NULL</td><td>Loyer, Fournitures, Salaires, Transport…</td></tr>
+        <tr><td>Montant</td><td>DECIMAL(15,2) NOT NULL</td><td>Montant de la dépense en FCFA</td></tr>
+        <tr><td>Justificatif</td><td>VARCHAR(255) NULL</td><td>Chemin vers le fichier joint (facture, reçu)</td></tr>
+        <tr><td>ID_User</td><td>INT FK → UTILISATEURS</td><td>Auteur de la saisie</td></tr>
+        <tr><td>Observation</td><td>TEXT NULL</td><td>Notes complémentaires</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Tableau de bord financier (trésorerie)</h3>
+  <div style="background:var(--code-bg); border:1px solid var(--border); border-radius:5px; padding:20px; margin:14px 0;">
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; text-align:center; font-size:13px;">
+      <div style="border:1px solid var(--border); border-radius:5px; padding:14px; background:white;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Encaissements</div>
+        <div style="font-size:18px; font-weight:600; color:#2e7d32;">Σ Paiements</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">Somme des paiements clients</div>
+      </div>
+      <div style="border:1px solid var(--border); border-radius:5px; padding:14px; background:white;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Décaissements</div>
+        <div style="font-size:18px; font-weight:600; color:var(--accent);">Σ Dépenses</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">Total des dépenses enregistrées</div>
+      </div>
+      <div style="border:2px solid var(--primary); border-radius:5px; padding:14px; background:white;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Résultat Net</div>
+        <div style="font-size:18px; font-weight:600; color:var(--primary);">Enc. − Déc.</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">Bénéfice ou déficit de la période</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Filtres disponibles</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Par période (date début / date fin)</div>
+    <div class="feature-item">Par mois et par année</div>
+    <div class="feature-item">Par catégorie de dépense</div>
+    <div class="feature-item">Par mode de paiement encaissé</div>
+  </div>
+</div>
+
+<!-- SECTION 12 -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <span class="section-num">§ 12</span>
+    <div>
+      <h2>Module 9 — Catalogue Services</h2>
+      <p>Référentiel des prestations et tarifs standard de l'agence</p>
+    </div>
+  </div>
+
+  <div class="module-header">
+    <span class="module-tag">TABLE</span>
+    <h3>SERVICES</h3>
+  </div>
+  <div class="module-body">
+    <table class="db-table">
+      <thead><tr><th>Champ</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>ID_Service</td><td>INT PK AUTO_INCREMENT</td><td>Identifiant</td></tr>
+        <tr><td>Designation</td><td>VARCHAR(255) NOT NULL UNIQUE</td><td>Nom de la prestation</td></tr>
+        <tr><td>Description</td><td>TEXT NULL</td><td>Détail de la prestation</td></tr>
+        <tr><td>Unite</td><td>VARCHAR(50) NULL</td><td>Ex : unité, m², exemplaires</td></tr>
+        <tr><td>Prix_Standard</td><td>DECIMAL(15,2) NULL</td><td>Tarif de référence (modifiable à la commande)</td></tr>
+        <tr><td>Actif</td><td>BOOLEAN DEFAULT 1</td><td>Afficher ou masquer dans les listes déroulantes</td></tr>
+        <tr><td>Categorie</td><td>VARCHAR(100) NULL</td><td>Impression / Création / Communication</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Exemples de services pré-chargés</h3>
+  <div style="columns:2; gap:16px; margin:14px 0;">
+    <div style="font-size:12.5px; line-height:2.2; break-inside:avoid;">
+      <strong style="color:var(--accent2);">Impression</strong><br>
+      • Impression Bâche (m²)<br>
+      • Carte de visite (500 ex.)<br>
+      • Flyer A5 (1000 ex.)<br>
+      • Dépliant A4 plié<br>
+      • Brochure (8 pages)<br>
+      • Kakémono / Roll Up<br>
+      • T-shirt sérigraphié<br>
+      • Impression grand format
+    </div>
+    <div style="font-size:12.5px; line-height:2.2; break-inside:avoid;">
+      <strong style="color:var(--accent2);">Création & Communication</strong><br>
+      • Conception graphique charte<br>
+      • Création logo<br>
+      • Maquette publicitaire<br>
+      • Habillage véhicule<br>
+      • Gestion réseaux sociaux<br>
+      • Shooting photo<br>
+      • Montage vidéo<br>
+      • Création site web
+    </div>
+  </div>
+  <div class="info-box">
+    Le prix standard est un tarif indicatif. Il est pré-rempli dans la ligne de devis/facture, mais reste modifiable à chaque commande pour s'adapter aux négociations et remises.
+  </div>
+</div>
+
+<!-- SECTION 13 -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <span class="section-num">§ 13</span>
+    <div>
+      <h2>Tableau de Bord Principal</h2>
+      <p>Vue synthétique à l'ouverture de l'application</p>
+    </div>
+  </div>
+
+  <h3>Cartes statistiques (KPI)</h3>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:14px 0;">
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Clients actifs</div>
+      <div style="font-size:22px; font-weight:600; color:var(--accent2);">—</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Proformas</div>
+      <div style="font-size:22px; font-weight:600; color:var(--accent2);">—</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Factures émises</div>
+      <div style="font-size:22px; font-weight:600; color:var(--accent2);">—</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Factures impayées</div>
+      <div style="font-size:22px; font-weight:600; color:var(--accent);">—</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">CA total (FCFA)</div>
+      <div style="font-size:22px; font-weight:600; color:#2e7d32;">—</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Encaissé (FCFA)</div>
+      <div style="font-size:22px; font-weight:600; color:#2e7d32;">—</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Solde restant</div>
+      <div style="font-size:22px; font-weight:600; color:var(--accent);">—</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:5px; padding:14px; text-align:center; background:white;">
+      <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Dépenses du mois</div>
+      <div style="font-size:22px; font-weight:600; color:var(--accent);">—</div>
+    </div>
+  </div>
+
+  <h3>Graphiques (Chart.js)</h3>
+  <table class="db-table">
+    <thead><tr><th>Graphique</th><th>Type</th><th>Données</th></tr></thead>
+    <tbody>
+      <tr><td>Chiffre d'affaires mensuel</td><td>Courbe (LineChart)</td><td>Montant facturé par mois sur 12 mois</td></tr>
+      <tr><td>Encaissements par mois</td><td>Barres (BarChart)</td><td>Paiements encaissés par mois</td></tr>
+      <tr><td>Factures payées / impayées</td><td>Camembert (DoughnutChart)</td><td>Répartition du statut des factures</td></tr>
+      <tr><td>Répartition dépenses</td><td>Camembert (PieChart)</td><td>Dépenses par catégorie</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Alertes & Notifications</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Factures dont la date d'échéance est dépassée</div>
+    <div class="feature-item">Proformas en attente depuis plus de 30 jours</div>
+    <div class="feature-item">Factures partiellement payées (solde > 0)</div>
+    <div class="feature-item">Dernières activités (journal)</div>
+  </div>
+</div>
+
+<!-- SECTION 14 -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <span class="section-num">§ 14</span>
+    <div>
+      <h2>Numérotation Automatique des Documents</h2>
+      <p>Format, logique d'incrémentation et unicité</p>
+    </div>
+  </div>
+
+  <div class="numbering-grid">
+    <div class="num-card">
+      <label>Proformas</label>
+      <div class="examples">
+        P-26-0001<br>P-26-0002<br>P-26-0003
+      </div>
+    </div>
+    <div class="num-card">
+      <label>Factures</label>
+      <div class="examples">
+        F-26-0001<br>F-26-0002<br>F-26-0003
+      </div>
+    </div>
+    <div class="num-card">
+      <label>Bons de Livraison</label>
+      <div class="examples">
+        BL-26-0001<br>BL-26-0002<br>BL-26-0003
+      </div>
+    </div>
+  </div>
+
+  <h3>Règles de numérotation</h3>
+  <table class="db-table">
+    <thead><tr><th>Composant</th><th>Signification</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td>Préfixe</td><td>Type de document (P, F, BL)</td><td>F</td></tr>
+      <tr><td>Année</td><td>2 derniers chiffres de l'année en cours</td><td>26</td></tr>
+      <tr><td>Séquence</td><td>Numéro séquentiel sur 4 chiffres (remis à 0 chaque année)</td><td>0001</td></tr>
+    </tbody>
+  </table>
+  <div class="info-box">
+    La numérotation est unique et séquentielle par type de document et par année. Une table <code>SEQUENCES</code> ou une fonction PHP contrôle l'incrémentation et garantit l'absence de doublons, même en cas de création simultanée.
+  </div>
+</div>
+
+<!-- SECTION 15 -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <span class="section-num">§ 15</span>
+    <div>
+      <h2>Génération PDF & Impression</h2>
+      <p>Documents professionnels avec DomPDF — contenu et mise en page</p>
+    </div>
+  </div>
+
+  <h3>Documents générés en PDF</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Proforma / Devis (format A4)</div>
+    <div class="feature-item">Facture (format A4)</div>
+    <div class="feature-item">Bon de Livraison (format A4)</div>
+    <div class="feature-item">Reçu de paiement</div>
+  </div>
+
+  <h3>Contenu obligatoire sur chaque document</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0;">
+    <div>
+      <h4>En-tête (depuis PARAMETRES_ENTREPRISE)</h4>
+      <ul style="font-size:12.5px; line-height:2;">
+        <li>Logo de l'agence</li>
+        <li>Nom & Sigle de l'entreprise</li>
+        <li>NIF et RCCM</li>
+        <li>Adresse, Téléphone(s), Email</li>
+        <li>Site web (si renseigné)</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Corps du document</h4>
+      <ul style="font-size:12.5px; line-height:2;">
+        <li>Référence et date d'émission</li>
+        <li>Informations du client (nom, adresse, NIF)</li>
+        <li>Objet / intitulé</li>
+        <li>Tableau des lignes (désignation, qté, PU, total)</li>
+        <li>Sous-total HT, TVA, Total TTC</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Pied de page</h4>
+      <ul style="font-size:12.5px; line-height:2;">
+        <li>Coordonnées bancaires</li>
+        <li>Moyens de paiement Mobile Money</li>
+        <li>Mentions légales</li>
+        <li>Signature</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Options d'export</h4>
+      <ul style="font-size:12.5px; line-height:2;">
+        <li>Téléchargement direct (download)</li>
+        <li>Ouverture dans un nouvel onglet (aperçu)</li>
+        <li>Impression directe navigateur</li>
+        <li>Envoi par email (V2)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 16 -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <span class="section-num">§ 16</span>
+    <div>
+      <h2>Plan de Développement & Livrables</h2>
+      <p>Phases de développement recommandées et jalons</p>
+    </div>
+  </div>
+
+  <div class="phases">
+    <div class="phase-row">
+      <span class="phase-badge">Phase 1</span>
+      <div class="phase-content">
+        <strong>Fondations — 2 semaines</strong>
+        <span>Installation WampServer, structure MVC, base de données complète, authentification, paramètres entreprise, module utilisateurs</span>
+      </div>
+    </div>
+    <div class="phase-row">
+      <span class="phase-badge">Phase 2</span>
+      <div class="phase-content">
+        <strong>Module Commercial — 3 semaines</strong>
+        <span>Gestion clients, catalogue services, proformas avec lignes dynamiques (AJAX), conversion proforma → facture, numérotation automatique</span>
+      </div>
+    </div>
+    <div class="phase-row">
+      <span class="phase-badge">Phase 3</span>
+      <div class="phase-content">
+        <strong>Facturation & Livraison — 2 semaines</strong>
+        <span>Factures complètes, gestion TVA, bons de livraison auto, paiements partiels avec mise à jour des soldes, génération PDF (DomPDF)</span>
+      </div>
+    </div>
+    <div class="phase-row">
+      <span class="phase-badge">Phase 4</span>
+      <div class="phase-content">
+        <strong>Finances & Tableau de bord — 2 semaines</strong>
+        <span>Module dépenses, trésorerie consolidée, tableau de bord KPI, graphiques Chart.js, alertes impayés</span>
+      </div>
+    </div>
+    <div class="phase-row">
+      <span class="phase-badge">Phase 5</span>
+      <div class="phase-content">
+        <strong>Tests, finitions & déploiement — 1 semaine</strong>
+        <span>Tests unitaires, tests utilisateurs, corrections, optimisations SQL, mise en production sur WampServer, formation utilisateurs</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Livrables attendus</h3>
+  <table class="db-table">
+    <thead><tr><th>Livrable</th><th>Format</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Code source complet</td><td>PHP/HTML/CSS/JS</td><td>Architecture MVC commentée</td></tr>
+      <tr><td>Script SQL</td><td>.sql</td><td>Création complète de la base de données + données de test</td></tr>
+      <tr><td>Documentation technique</td><td>PDF</td><td>Guide d'installation, configuration WampServer</td></tr>
+      <tr><td>Manuel utilisateur</td><td>PDF</td><td>Guide d'utilisation par module avec captures d'écran</td></tr>
+      <tr><td>Application déployée</td><td>URL locale</td><td>Accessible sur le réseau local de l'agence</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 17 -->
+<div class="section" id="s17">
+  <div class="section-header">
+    <span class="section-num">§ 17</span>
+    <div>
+      <h2>Contraintes & Exigences Non-Fonctionnelles</h2>
+      <p>Performance, sécurité, ergonomie et maintenance</p>
+    </div>
+  </div>
+
+  <h3>Performance</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Temps de réponse &lt; 2 secondes pour toutes les pages</div>
+    <div class="feature-item">Génération PDF &lt; 5 secondes par document</div>
+    <div class="feature-item">Recherche client en temps réel (AJAX live search)</div>
+    <div class="feature-item">Calculs de totaux en temps réel côté client (JS)</div>
+  </div>
+
+  <h3>Sécurité</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Authentification obligatoire — sessions PHP sécurisées</div>
+    <div class="feature-item">Hachage passwords : bcrypt (password_hash PHP)</div>
+    <div class="feature-item">Protection CSRF sur tous les formulaires</div>
+    <div class="feature-item">Requêtes paramétrées PDO (anti-injection SQL)</div>
+    <div class="feature-item">Validation des données côté serveur (PHP)</div>
+    <div class="feature-item">Accès fichiers uploads restreint (hors webroot)</div>
+  </div>
+
+  <h3>Ergonomie & UX</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Interface responsive Bootstrap 5 (PC et tablette)</div>
+    <div class="feature-item">Navigation intuitive avec menu latéral</div>
+    <div class="feature-item">Messages de confirmation avant toute suppression</div>
+    <div class="feature-item">Messages de succès/erreur après chaque action</div>
+    <div class="feature-item">Tableaux paginés (20 lignes par page)</div>
+    <div class="feature-item">Filtres et tris sur toutes les listes</div>
+  </div>
+
+  <h3>Maintenance</h3>
+  <div class="feature-grid">
+    <div class="feature-item">Code commenté en français</div>
+    <div class="feature-item">Sauvegarde base de données via phpMyAdmin</div>
+    <div class="feature-item">Logs d'erreurs PHP activés en développement</div>
+    <div class="feature-item">Architecture évolutive (ajout modules V2 simplifié)</div>
+  </div>
+
+  <div class="warn-box" style="margin-top:24px;">
+    <strong>Évolutions V2 envisageables :</strong> Envoi de factures par email (PHPMailer / SMTP), module relances automatiques impayés, export Excel des états financiers, accès multi-agences, application mobile (PWA), intégration API paiement mobile.
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div>
+    <strong>CDC-ERP-COM-2026</strong> — Cahier des Charges ERP Agence de Communication
+  </div>
+  <div>
+    Version 1.0 &nbsp;·&nbsp; Confidentiel &nbsp;·&nbsp; Tous droits réservés
+  </div>
+</div>
+
+</body>
+</html>

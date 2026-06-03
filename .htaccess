@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Rediriger vers le dossier public
+    RewriteCond %{REQUEST_URI} !^/erp-kola/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
